@@ -37,8 +37,6 @@ set(SRCS
 	src/efsw/WatcherKqueue.cpp
 	src/efsw/WatcherWin32.cpp)
 
-include_directories(include src)	
-
 if (WIN32)
 	list (APPEND SRCS
 		  src/efsw/platform/win/FileSystemImpl.cpp
@@ -112,6 +110,13 @@ if (STATIC_LIB)
 else()
 	add_library(efsw SHARED ${SRCS})
 endif()
+
+
+target_include_directories(efsw PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/include
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/src)	
+
+
 
 if (APPLE)
 	set(MAC_LIBS "-framework CoreFoundation" "-framework CoreServices")
